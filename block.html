@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="styles.css">
+
+  <title>Game</title>
+</head>
+
+<body>
+  <div>
+    <button type="button" , onclick="clicked()" , id="btn">Press to start</button>
+    <button type="button" , onclick="remove()" , id="btn">Press to stop</button>
+    <canvas id="cv" width="1000" height="1000"></canvas>
+  </div>
+</body>
+<script>
+  const canv = document.getElementById("cv");
+  const ctx = canv.getContext("2d");
+  // let a = Math.floor(Math.random()* 975);
+  let b = 20;
+  let move = null;
+  let diff = 5;
+  let yval = [];
+  let done = true;
+  let randval = [];
+  
+  function drawlots() {
+    for(let i = 0; i< 5; i++) {
+      yval[i] = setInterval("rect(" +  Math.floor(Math.random()* 975) + ")", 100);
+    }
+    for(let i = 0; i< 5; i++) {
+    move = yval[i];
+    }
+  }
+
+  function clicked() {
+    console.log(done);
+    draw();
+    done = false;
+    
+  }
+
+  function draw() {
+      randval[0] = Math.floor(Math.random()* 975);
+      yval[0] = setInterval("rect(" + randval[0]+ ")", 100);
+    // for(let i = 0; i< 5; i++) {
+  };
+
+  function remove() {
+    for(let i = 0; i < 5; i++) {  
+      clearInterval(yval[i]);
+      }
+    clearInterval(move);
+    done = true;
+    ctx.clearRect(0,0, canv.width, canv.height);
+    clearInterval();
+  }
+
+  function rect(a) {
+    ctx.clearRect(0,0, canv.width, canv.height);
+    ctx.fillRect(a, b, 50, 50);
+    console.log(a);
+    console.log(b);
+    movement();
+  }
+
+  function movement() {
+    if (b < canv.width) {
+      b = b + 10;
+    } else {
+      b = 0;
+      a = Math.floor(Math.random()* 975);
+    }
+  }
+</script>
+
+</html>
