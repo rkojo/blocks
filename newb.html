@@ -11,30 +11,34 @@
   <div>
     <button type="button" , onclick="draw()" , id="btn">Press to start</button>
     <button type="button" , onclick="remove()" , id="btn">Press to stop</button>
-    <canvas id="cv" width="500" height="500"></canvas>
+    <canvas id="cv" width="500" height="500" style="border: 1px solid black;"></canvas>
   </div>
 </body>
 <script>
   const canv = document.getElementById("cv");
   const ctx = canv.getContext("2d");
   // let a = Math.floor(Math.random()* 975);
+  let size = canv.width;
   let move = null;
   let diff = 5;
   let yval = [];
   let done = true;
-  let a =0;
+  let a = 0;
   let b = 0;
-  let randx  = Math.floor(Math.random()* 975);
-  let randy = Math.floor(Math.random()* 975);
+  let rand = Math.random();
+  let randx  = 10 +  Math.floor(Math.random()* size);
+  let randy = 10 + Math.floor(Math.random()* size);
+  console.log(randx);
+    console.log(randy);
   
-  function drawlots() {
-    for(let i = 0; i< 5; i++) {
-      yval[i] = setInterval("rect(" +  Math.floor(Math.random()* 975) + ")", 100);
-    }
-    for(let i = 0; i< 5; i++) {
-    move = yval[i];
-    }
-  }
+  // function drawlots() {
+  //   for(let i = 0; i< 5; i++) {
+  //     yval[i] = setInterval("rect(" +  Math.floor(Math.random()* size) + ")", 100);
+  //   }
+  //   for(let i = 0; i< 5; i++) {
+  //   move = yval[i];
+  //   }
+  // }
 
   function clicked() {
     console.log(done);
@@ -57,22 +61,44 @@
   function rect() {
     ctx.clearRect(0,0, canv.width, canv.height);
     ctx.fillRect(randx, randy, a, b);
-    console.log( "a = " + a);
-    console.log(b);
-    movement();
-  }
-
-  function movement() {
-    if (a < canv.width && a >= 0 && b < canv.width && b >= 0) {
-      a = a + 10;
-      b = b + 10;
+    //need to sort out width
+    if(rand > 0.5 ) {
+      movementneg();
     } else {
-      a = 0;
-      b = 0;
-      randy = Math.floor(Math.random()* 975);
-      randx = Math.floor(Math.random()* 975);
+      movementpos();
     }
   }
+
+  function movementpos() {
+    if (randx < canv.width &&  randx > 0 && randy < canv.height && randy > 0) {
+      a = a + 3;
+      b = b + 3;
+      randy = randy - 3;
+      randx = randx - 3;
+    } else {
+      stopmovement();
+    }
+  }
+  function movementneg() {
+    if (randx < canv.width && randx > 0 && randy < canv.height && randy > 0) {
+      a = a - 3;
+      b = b - 3;
+      randy = randy + 3;
+      randx = randx + 3;
+    } else {
+      stopmovement();
+    }
+  }
+
+  function stopmovement() {
+    ctx.clearRect(0,0, canv.width, canv.height);
+      a = 0;
+      b = 0;
+      randy = Math.floor(Math.random()* size);
+      randx = Math.floor(Math.random()* size);
+      rand = Math.random();
+  }
+
 </script>
 
 </html>
