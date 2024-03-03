@@ -9,82 +9,90 @@
 
 <body>
   <div>
-    <button type="button" , onclick="draw()" , id="btn">Press to start</button>
+    <div>
     <button type="button" , onclick="remove()" , id="btn">Press to stop</button>
+  </div>
     <canvas id="cv" width="500" height="500" style="border: 1px solid black;"></canvas>
   </div>
 </body>
 <script>
   const canv = document.getElementById("cv");
   const ctx = canv.getContext("2d");
-  // let a = Math.floor(Math.random()* 975);
   let size = canv.width;
   let move = null;
-  let diff = 5;
-  let yval = [];
-  let done = true;
+  let pressed = false;
+  //size
   let a = 0;
   let b = 0;
+  //switch between the two options of rectangle going up or down
   let rand = Math.random();
+  let rand2 = Math.random();
+  //x and y coordinates
   let randx  = 10 +  Math.floor(Math.random()* size);
   let randy = 10 + Math.floor(Math.random()* size);
+  let randx2  = 10 +  Math.floor(Math.random()* size);
+  let randy2 = 10 + Math.floor(Math.random()* size);
+  //to track coordinates of the two other corners
+  let width1 = randx;
+  let height1 = randy;
+  let width2 = randx2;
+  let height2 = randy2;
   console.log(randx);
     console.log(randy);
-  
-  // function drawlots() {
-  //   for(let i = 0; i< 5; i++) {
-  //     yval[i] = setInterval("rect(" +  Math.floor(Math.random()* size) + ")", 100);
-  //   }
-  //   for(let i = 0; i< 5; i++) {
-  //   move = yval[i];
-  //   }
-  // }
 
   function clicked() {
     console.log(done);
     draw();
-    done = false;
   }
+  canv.addEventListener('click',() => draw(), true);
 
   function draw() {
-      move = setInterval("rect(" + randx + ","+ randy+ ")", 100);
+    if(pressed == false) {
+      move = setInterval(() => rect(), 100);
+      pressed = true;
+    }
     // for(let i = 0; i< 5; i++) {
   };
 
   function remove() {
     clearInterval(move);
-    done = true;
     ctx.clearRect(0,0, canv.width, canv.height);
     clearInterval();
+    pressed = false;
   }
 
   function rect() {
     ctx.clearRect(0,0, canv.width, canv.height);
-    ctx.fillRect(randx, randy, a, b);
+    let rect1 = ctx.fillRect(randx, randy, a, b);
+    let rect2 = ctx.fillRect(randx2, randy2, a, b)
     //need to sort out width
     if(rand > 0.5 ) {
       movementneg();
     } else {
       movementpos();
     }
+
   }
 
   function movementpos() {
-    if (randx < canv.width &&  randx > 0 && randy < canv.height && randy > 0) {
-      a = a + 3;
+    if ((width1 < canv.width &&  width1 > 0 && height1 < canv.width && height1 > 0) && (width2 < canv.width &&  width2 > 0 && height2 < canv.height && height2 > 0)){      a = a + 3;
       b = b + 3;
-      randy = randy - 3;
-      randx = randx - 3;
+      width1 = randx + Math.abs(a);
+      height1 = randy + Math.abs(b);
+      width2 = randx2 +  Math.abs(a);
+      height2 = randy2 + Math.abs(b);
     } else {
       stopmovement();
     }
   }
   function movementneg() {
-    if (randx < canv.width && randx > 0 && randy < canv.height && randy > 0) {
+    if ((width1 < canv.width &&  width1 > 0 && height1 < canv.width && height1 > 0) && (width2 < canv.width &&  width2 > 0 && height2 < canv.height && height2 > 0)){
       a = a - 3;
       b = b - 3;
-      randy = randy + 3;
-      randx = randx + 3;
+      width1 = randx - Math.abs(a);
+      height1 = randy - Math.abs(b);
+      width2 = randx2 -  Math.abs(a);
+      height2 = randy2 - Math.abs(b);
     } else {
       stopmovement();
     }
@@ -96,6 +104,12 @@
       b = 0;
       randy = Math.floor(Math.random()* size);
       randx = Math.floor(Math.random()* size);
+      randy2 = Math.floor(Math.random()* size);
+      randx2 = Math.floor(Math.random()* size);
+      width1 = randx;
+      height1 = randy;
+      width2 = randx2;
+      height2 = randy2;
       rand = Math.random();
   }
 
