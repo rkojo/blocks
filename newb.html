@@ -16,9 +16,9 @@
   </div>
 </body>
 <script>
-  const canv = document.getElementById("cv");
-  const ctx = canv.getContext("2d");
-  let size = canv.width;
+  const canvas = document.getElementById("cv");
+  const ctx = canvas.getContext("2d");
+  let size = canvas.width;
   let move = null;
   let pressed = false;
   //size
@@ -37,6 +37,7 @@
   let height1 = randy;
   let width2 = randx2;
   let height2 = randy2;
+  let stopped = false;
   console.log(randx);
     console.log(randy);
 
@@ -44,25 +45,30 @@
     console.log(done);
     draw();
   }
-  canv.addEventListener('click',() => draw(), true);
+  canvas.addEventListener('click',() => draw(event), true);
+  canvas.addEventListener('mousemove',  drawmouse, false);
 
-  function draw() {
+  function draw(e) {
     if(pressed == false) {
       move = setInterval(() => rect(), 100);
       pressed = true;
     }
-    // for(let i = 0; i< 5; i++) {
   };
+
+  function drawmouse(e) {
+    var mmv = getMousePos(e)
+    ctx.fillRect(mmv.x, mmv.y, 4,4);
+  }
 
   function remove() {
     clearInterval(move);
-    ctx.clearRect(0,0, canv.width, canv.height);
+    ctx.clearRect(0,0, canvas.width, canvas.height);
     clearInterval();
     pressed = false;
   }
 
   function rect() {
-    ctx.clearRect(0,0, canv.width, canv.height);
+    ctx.clearRect(0,0, canvas.width, canvas.height);
     let rect1 = ctx.fillRect(randx, randy, a, b);
     let rect2 = ctx.fillRect(randx2, randy2, a, b)
     //need to sort out width
@@ -75,7 +81,8 @@
   }
 
   function movementpos() {
-    if ((width1 < canv.width &&  width1 > 0 && height1 < canv.width && height1 > 0) && (width2 < canv.width &&  width2 > 0 && height2 < canv.height && height2 > 0)){      a = a + 3;
+    if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){     
+      a = a + 3;
       b = b + 3;
       width1 = randx + Math.abs(a);
       height1 = randy + Math.abs(b);
@@ -86,7 +93,7 @@
     }
   }
   function movementneg() {
-    if ((width1 < canv.width &&  width1 > 0 && height1 < canv.width && height1 > 0) && (width2 < canv.width &&  width2 > 0 && height2 < canv.height && height2 > 0)){
+    if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){
       a = a - 3;
       b = b - 3;
       width1 = randx - Math.abs(a);
@@ -97,9 +104,21 @@
       stopmovement();
     }
   }
+  function getMousePos(evt) {
+
+    var rect = canvas.getBoundingClientRect(), // abs. size of element
+    scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for x
+    scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
+
+  return {
+    x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
+    y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
+  }
+}
 
   function stopmovement() {
-    ctx.clearRect(0,0, canv.width, canv.height);
+    stopped = true;
+    ctx.clearRect(0,0, canvas.width, canvas.height);
       a = 0;
       b = 0;
       randy = Math.floor(Math.random()* size);
@@ -114,5 +133,4 @@
   }
 
 </script>
-
 </html>
