@@ -14,6 +14,9 @@
   </div>
     <canvas id="cv" width="500" height="500" style="border: 1px solid black;"></canvas>
   </div>
+  <div>
+    <p>Click above to start, avoid the rectangles.</p>
+  </div>
 </body>
 <script>
   const canvas = document.getElementById("cv");
@@ -28,16 +31,17 @@
   let rand = Math.random();
   let rand2 = Math.random();
   //x and y coordinates
-  let randx  = 10 +  Math.floor(Math.random()* size);
-  let randy = 10 + Math.floor(Math.random()* size);
-  let randx2  = 10 +  Math.floor(Math.random()* size);
-  let randy2 = 10 + Math.floor(Math.random()* size);
+  let randx  = 0;
+  let randy = 0;
+  let randx2  = 0;
+  let randy2 = 0;
   //to track coordinates of the two other corners
-  let width1 = randx;
-  let height1 = randy;
-  let width2 = randx2;
-  let height2 = randy2;
+  let width1 = 0;
+  let height1 = 0;
+  let width2 = 0;
+  let height2 = 0;
   let stopped = false;
+  let mmv = {x: 0, y: 0};
   console.log(randx);
     console.log(randy);
 
@@ -50,14 +54,16 @@
 
   function draw(e) {
     if(pressed == false) {
+      newstart();
       move = setInterval(() => rect(), 100);
       pressed = true;
     }
   };
 
   function drawmouse(e) {
-    var mmv = getMousePos(e)
+    mmv = getMousePos(e)
     ctx.fillRect(mmv.x, mmv.y, 4,4);
+    checkOut();
   }
 
   function remove() {
@@ -66,7 +72,7 @@
     clearInterval();
     pressed = false;
   }
-
+  //create rectangles
   function rect() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     let rect1 = ctx.fillRect(randx, randy, a, b);
@@ -77,9 +83,20 @@
     } else {
       movementpos();
     }
-
+  }
+  //check if mouse is over rectangles
+  function checkOut() {
+    if(((mmv.x > randx && mmv.x < width1) || (mmv.x < randx && mmv.x > width1)) && 
+    ((mmv.y > randy && mmv.y < height1) || (mmv.y < randy && mmv.y > height1))) {
+      console.log("inside1 " + mmv.x + " " + mmv.y + " " + width1, height1 + " " + width2, height2);
+    }
+    if(((mmv.x > randx2 && mmv.x < width2) || (mmv.x < randx2 && mmv.x > width2)) && 
+    ((mmv.y > randy2 && mmv.y < height2) || (mmv.y < randy2 && mmv.y > height2))) {
+      console.log("inside2 " + mmv.x + mmv.y + " " +width2, height2)
+    }
   }
 
+  //move left up
   function movementpos() {
     if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){     
       a = a + 3;
@@ -88,10 +105,15 @@
       height1 = randy + Math.abs(b);
       width2 = randx2 +  Math.abs(a);
       height2 = randy2 + Math.abs(b);
+      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
+      checkOut();
+
     } else {
-      stopmovement();
+      newstart();
     }
   }
+
+  //move right down
   function movementneg() {
     if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){
       a = a - 3;
@@ -100,10 +122,13 @@
       height1 = randy - Math.abs(b);
       width2 = randx2 -  Math.abs(a);
       height2 = randy2 - Math.abs(b);
+      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
+      checkOut(); 
     } else {
-      stopmovement();
+      newstart();
     }
   }
+  //copied from https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
   function getMousePos(evt) {
 
     var rect = canvas.getBoundingClientRect(), // abs. size of element
@@ -115,11 +140,9 @@
     y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
   }
 }
-
-  function stopmovement() {
-    stopped = true;
-    ctx.clearRect(0,0, canvas.width, canvas.height);
-      a = 0;
+//add values
+function newstart() {
+  a = 0;
       b = 0;
       randy = Math.floor(Math.random()* size);
       randx = Math.floor(Math.random()* size);
@@ -130,7 +153,22 @@
       width2 = randx2;
       height2 = randy2;
       rand = Math.random();
+}
+  //restart
+  function stopmovement() {
+    stopped = true;
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+      a = 0;
+      b = 0;
+      randy = 0
+      randx = 0
+      randy2 = 0
+      randx2 =0;
+      width1 = randx;
+      height1 = randy;
+      width2 = randx2;
+      height2 = randy2;
+      rand = 0;
   }
-
 </script>
 </html>
