@@ -9,13 +9,16 @@
 
 <body>
   <div>
-    <div>
+    <div id = top>
     <button type="button" , onclick="remove()" , id="btn">Press to stop</button>
-  </div>
+    <button type="button", onclick="instruction()", id="btn">How to play</button>
+    <p></p>
+    <p>  Score: </p>
+    <p id="score">0</p>
+    </div>
+    <div>
     <canvas id="cv" width="500" height="500" style="border: 1px solid black;"></canvas>
   </div>
-  <div>
-    <p>Click above to start, avoid the rectangles.</p>
   </div>
 </body>
 <script>
@@ -41,7 +44,9 @@
   let width2 = 0;
   let height2 = 0;
   let stopped = false;
-  let mmv = {x: 0, y: 0};
+  let mmv = {x: 0, y: 0}; //xy coordinates for mouse
+  let score = -1; //score goes to 0 when newstart occurs
+  let movement = 3;
   console.log(randx);
     console.log(randy);
 
@@ -52,6 +57,7 @@
   canvas.addEventListener('click',() => draw(event), true);
   canvas.addEventListener('mousemove',  drawmouse, false);
 
+
   function draw(e) {
     if(pressed == false) {
       newstart();
@@ -59,10 +65,10 @@
       pressed = true;
     }
   };
-
+  //gets mouse position
   function drawmouse(e) {
     mmv = getMousePos(e)
-    ctx.fillRect(mmv.x, mmv.y, 4,4);
+    ctx.fillRect(mmv.x, mmv.y, 0,0);
     checkOut();
   }
 
@@ -89,18 +95,24 @@
     if(((mmv.x > randx && mmv.x < width1) || (mmv.x < randx && mmv.x > width1)) && 
     ((mmv.y > randy && mmv.y < height1) || (mmv.y < randy && mmv.y > height1))) {
       console.log("inside1 " + mmv.x + " " + mmv.y + " " + width1, height1 + " " + width2, height2);
+    score = 0;
+    document.getElementById('score').innerHTML = score;
+
     }
     if(((mmv.x > randx2 && mmv.x < width2) || (mmv.x < randx2 && mmv.x > width2)) && 
     ((mmv.y > randy2 && mmv.y < height2) || (mmv.y < randy2 && mmv.y > height2))) {
       console.log("inside2 " + mmv.x + mmv.y + " " +width2, height2)
+    score = 0;
+    document.getElementById('score').innerHTML = score;
+
     }
   }
 
   //move left up
   function movementpos() {
     if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){     
-      a = a + 3;
-      b = b + 3;
+      a = a + movement;
+      b = b + movement;
       width1 = randx + Math.abs(a);
       height1 = randy + Math.abs(b);
       width2 = randx2 +  Math.abs(a);
@@ -116,8 +128,8 @@
   //move right down
   function movementneg() {
     if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){
-      a = a - 3;
-      b = b - 3;
+      a = a - movement;
+      b = b - movement;
       width1 = randx - Math.abs(a);
       height1 = randy - Math.abs(b);
       width2 = randx2 -  Math.abs(a);
@@ -130,7 +142,6 @@
   }
   //copied from https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
   function getMousePos(evt) {
-
     var rect = canvas.getBoundingClientRect(), // abs. size of element
     scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for x
     scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
@@ -142,6 +153,9 @@
 }
 //add values
 function newstart() {
+  score++;
+  console.log(score);
+  document.getElementById('score').innerHTML = score;
   a = 0;
       b = 0;
       randy = Math.floor(Math.random()* size);
@@ -169,6 +183,9 @@ function newstart() {
       width2 = randx2;
       height2 = randy2;
       rand = 0;
+  }
+  function instruction() {
+    alert("click the square to play, avoid the growing rectangles, higher points = faster movement")
   }
 </script>
 </html>

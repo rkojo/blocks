@@ -4,10 +4,18 @@ body {
 h1 {
   color: blue;
 }
-p {
-  color: red;
+div{
+  text-align:center;
 }
-cv {
+.cv {
   outline: black 3px solid;
   border: 1px solid blue;
+}
+#top {
+  display: flex;
+  align-items:center;
+  text-align: center;
+  color: green;
+  justify-content:space-around;
+  flex-direction: row;
 }
