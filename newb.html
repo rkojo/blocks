@@ -10,11 +10,13 @@
 <body>
   <div>
     <div id = top>
+      <button type="button", onclick="instruction()", id="btn">How to play</button>
     <button type="button" , onclick="remove()" , id="btn">Press to stop</button>
-    <button type="button", onclick="instruction()", id="btn">How to play</button>
-    <p></p>
+    <p id="status"></p>
+    <div id = "scorestatus">
     <p>  Score: </p>
     <p id="score">0</p>
+    </div>
     </div>
     <div>
     <canvas id="cv" width="500" height="500" style="border: 1px solid black;"></canvas>
@@ -54,15 +56,17 @@
     console.log(done);
     draw();
   }
-  canvas.addEventListener('click',() => draw(event), true);
+  canvas.addEventListener('click',() => draw(event), false);
   canvas.addEventListener('mousemove',  drawmouse, false);
-
+  canvas.addEventListener('mouseleave', remove, false)
 
   function draw(e) {
     if(pressed == false) {
       newstart();
       move = setInterval(() => rect(), 100);
       pressed = true;
+      movement = 3;
+      document.getElementById('status').innerHTML = "";
     }
   };
   //gets mouse position
@@ -73,11 +77,13 @@
   }
 
   function remove() {
+    score = 0;
     clearInterval(move);
     ctx.clearRect(0,0, canvas.width, canvas.height);
     clearInterval();
     pressed = false;
   }
+
   //create rectangles
   function rect() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -97,14 +103,18 @@
       console.log("inside1 " + mmv.x + " " + mmv.y + " " + width1, height1 + " " + width2, height2);
     score = 0;
     document.getElementById('score').innerHTML = score;
-
+    document.getElementById('status').innerHTML = "GAME OVER"
+    movement = 0;
+    remove();
     }
     if(((mmv.x > randx2 && mmv.x < width2) || (mmv.x < randx2 && mmv.x > width2)) && 
     ((mmv.y > randy2 && mmv.y < height2) || (mmv.y < randy2 && mmv.y > height2))) {
       console.log("inside2 " + mmv.x + mmv.y + " " +width2, height2)
     score = 0;
     document.getElementById('score').innerHTML = score;
-
+    document.getElementById('status').innerHTML = "GAME OVER"
+      movement = 0;
+      remove();
     }
   }
 
@@ -119,7 +129,7 @@
       height2 = randy2 + Math.abs(b);
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
       checkOut();
-
+      speedup()
     } else {
       newstart();
     }
@@ -135,7 +145,8 @@
       width2 = randx2 -  Math.abs(a);
       height2 = randy2 - Math.abs(b);
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
-      checkOut(); 
+      checkOut();
+      speedup() 
     } else {
       newstart();
     }
@@ -184,8 +195,13 @@ function newstart() {
       height2 = randy2;
       rand = 0;
   }
+  function speedup() {
+    if(score> 5) {
+      movement = movement + 0.1;
+    }
+  }
   function instruction() {
-    alert("click the square to play, avoid the growing rectangles, higher points = faster movement")
+    alert("click the square to play, avoid the growing rectangles, higher points = faster movement. Dont leave the square otherwise it will be reset")
   }
 </script>
 </html>
