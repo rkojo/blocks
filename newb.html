@@ -75,7 +75,10 @@
     ctx.fillRect(mmv.x, mmv.y, 0,0);
     checkOut();
   }
-
+  function gameover() {
+    alert("Game Over")
+    remove();
+  }
   function remove() {
     score = 0;
     clearInterval(move);
@@ -100,12 +103,12 @@
   function checkOut() {
     if(((mmv.x > randx && mmv.x < width1) || (mmv.x < randx && mmv.x > width1)) && 
     ((mmv.y > randy && mmv.y < height1) || (mmv.y < randy && mmv.y > height1))) {
-      console.log("inside1 " + mmv.x + " " + mmv.y + " " + width1, height1 + " " + width2, height2);
+      console.log("inside1 " + mmv.x + " " + mmv.y + " " + width1, height1);
     score = 0;
     document.getElementById('score').innerHTML = score;
     document.getElementById('status').innerHTML = "GAME OVER"
     movement = 0;
-    remove();
+    gameover();
     }
     if(((mmv.x > randx2 && mmv.x < width2) || (mmv.x < randx2 && mmv.x > width2)) && 
     ((mmv.y > randy2 && mmv.y < height2) || (mmv.y < randy2 && mmv.y > height2))) {
@@ -114,7 +117,7 @@
     document.getElementById('score').innerHTML = score;
     document.getElementById('status').innerHTML = "GAME OVER"
       movement = 0;
-      remove();
+      gameover();
     }
   }
 
