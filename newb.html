@@ -32,6 +32,8 @@
   //size
   let a = 0;
   let b = 0;
+  let a2 = 0;
+  let b2 = 0;
   //switch between the two options of rectangle going up or down
   let rand = Math.random();
   let rand2 = Math.random();
@@ -91,19 +93,24 @@
   function rect() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     let rect1 = ctx.fillRect(randx, randy, a, b);
-    let rect2 = ctx.fillRect(randx2, randy2, a, b)
+    let rect2 = ctx.fillRect(randx2, randy2, a2, b2)
     //need to sort out width
     if(rand > 0.5 ) {
       movementneg();
     } else {
       movementpos();
     }
-  }
+    if(rand2 > 0.5) {
+      movementneg2();
+    } else {
+      movementpos2();
+    }
+    }
   //check if mouse is over rectangles
   function checkOut() {
     if(((mmv.x > randx && mmv.x < width1) || (mmv.x < randx && mmv.x > width1)) && 
     ((mmv.y > randy && mmv.y < height1) || (mmv.y < randy && mmv.y > height1))) {
-      console.log("inside1 " + mmv.x + " " + mmv.y + " " + width1, height1);
+      console.log("inside1 " + mmv.x + " " + mmv.y + " " + randx, width1,randy,  height1);
     score = 0;
     document.getElementById('score').innerHTML = score;
     document.getElementById('status').innerHTML = "GAME OVER"
@@ -112,7 +119,7 @@
     }
     if(((mmv.x > randx2 && mmv.x < width2) || (mmv.x < randx2 && mmv.x > width2)) && 
     ((mmv.y > randy2 && mmv.y < height2) || (mmv.y < randy2 && mmv.y > height2))) {
-      console.log("inside2 " + mmv.x + mmv.y + " " +width2, height2)
+      console.log("inside2 " + mmv.x + " "+ mmv.y + " " +randx2, width2, randy2, height2)
     score = 0;
     document.getElementById('score').innerHTML = score;
     document.getElementById('status').innerHTML = "GAME OVER"
@@ -128,8 +135,6 @@
       b = b + movement;
       width1 = randx + Math.abs(a);
       height1 = randy + Math.abs(b);
-      width2 = randx2 +  Math.abs(a);
-      height2 = randy2 + Math.abs(b);
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
       checkOut();
       speedup()
@@ -144,9 +149,36 @@
       a = a - movement;
       b = b - movement;
       width1 = randx - Math.abs(a);
-      height1 = randy - Math.abs(b);
-      width2 = randx2 -  Math.abs(a);
-      height2 = randy2 - Math.abs(b);
+      height1 =randy - Math.abs(b);
+      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
+      checkOut();
+      speedup() 
+    } else {
+      newstart();
+    }
+  }
+
+  function movementpos2() {
+    if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){     
+      a2 = a2 + movement;
+      b2 = b2 + movement;
+      width2 = randx2 +  Math.abs(a2);
+      height2 = randy2 + Math.abs(b2);
+      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
+      checkOut();
+      speedup()
+    } else {
+      newstart();
+    }
+  }
+
+  function movementneg2() {
+    if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){
+      a2 = a2 - movement;
+      b2 = b2 - movement;
+      width2 = randx2 -  Math.abs(a2);
+      height2 = randy2 - Math.abs(b2);
+      
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
       checkOut();
       speedup() 
