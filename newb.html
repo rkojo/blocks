@@ -130,6 +130,13 @@
       height1 = randy + Math.abs(b);
       width2 = randx2 +  Math.abs(a);
       height2 = randy2 + Math.abs(b);
+      ctx.font = "30px Arial";
+      ctx.fillStyle = 'red';
+      ctx.fillText("width1", width1, height1);
+      ctx.fillText("centre", randx, randy);
+      ctx.fillText("width2", width2, height2);
+      ctx.fillText("centre", randx2, randy2);
+
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
       checkOut();
       speedup()
@@ -144,9 +151,16 @@
       a = a - movement;
       b = b - movement;
       width1 = randx - Math.abs(a);
-      height1 = randy - Math.abs(b);
+      height1 = randy -  Math.abs(b);
       width2 = randx2 -  Math.abs(a);
       height2 = randy2 - Math.abs(b);
+      ctx.font = "30px Arial";
+      ctx.fillStyle = 'red';
+      ctx.fillText("width1", width1, height1);
+      ctx.fillText("centre", randx, randy);
+      ctx.fillText("width2", width2, height2);
+      ctx.fillText("centre", randx2, randy2);
+
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
       checkOut();
       speedup() 
