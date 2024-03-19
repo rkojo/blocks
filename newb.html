@@ -11,7 +11,6 @@
   <div>
     <div id = top>
       <button type="button", onclick="instruction()", id="btn">How to play</button>
-    <button type="button" , onclick="remove()" , id="btn">Press to stop</button>
     <p id="status"></p>
     <div id = "scorestatus">
     <p>  Score: </p>
@@ -60,7 +59,7 @@
   }
   canvas.addEventListener('click',() => draw(event), false);
   canvas.addEventListener('mousemove',  drawmouse, false);
-  canvas.addEventListener('mouseleave', remove, false)
+  canvas.addEventListener('mouseleave', gameover, false)
 
   function draw(e) {
     if(pressed == false) {
@@ -78,15 +77,15 @@
     checkOut();
   }
   function gameover() {
-    alert("Game Over")
-    remove();
-  }
-  function remove() {
+    //alert("Game Over")    
+    document.getElementById('score').innerHTML = score;
+    document.getElementById('status').innerHTML = "GAME OVER";
     score = 0;
     clearInterval(move);
     ctx.clearRect(0,0, canvas.width, canvas.height);
     clearInterval();
     pressed = false;
+    ctx.fillText("GAME OVER", randx, randy);
   }
 
   //create rectangles
@@ -112,8 +111,6 @@
     ((mmv.y > randy && mmv.y < height1) || (mmv.y < randy && mmv.y > height1))) {
       console.log("inside1 " + mmv.x + " " + mmv.y + " " + randx, width1,randy,  height1);
     score = 0;
-    document.getElementById('score').innerHTML = score;
-    document.getElementById('status').innerHTML = "GAME OVER"
     movement = 0;
     gameover();
     }
@@ -121,8 +118,6 @@
     ((mmv.y > randy2 && mmv.y < height2) || (mmv.y < randy2 && mmv.y > height2))) {
       console.log("inside2 " + mmv.x + " "+ mmv.y + " " +randx2, width2, randy2, height2)
     score = 0;
-    document.getElementById('score').innerHTML = score;
-    document.getElementById('status').innerHTML = "GAME OVER"
       movement = 0;
       gameover();
     }
@@ -139,6 +134,7 @@
       checkOut();
       speedup()
     } else {
+      score++;
       newstart();
     }
   }
@@ -154,6 +150,7 @@
       checkOut();
       speedup() 
     } else {
+      score++;
       newstart();
     }
   }
@@ -168,6 +165,7 @@
       checkOut();
       speedup()
     } else {
+      score++;
       newstart();
     }
   }
@@ -183,6 +181,7 @@
       checkOut();
       speedup() 
     } else {
+      score++;
       newstart();
     }
   }
@@ -199,7 +198,6 @@
 }
 //add values
 function newstart() {
-  score++;
   console.log(score);
   document.getElementById('score').innerHTML = score;
   a = 0;
