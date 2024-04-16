@@ -11,6 +11,7 @@
   <div>
     <div id = top>
       <button type="button", onclick="instruction()", id="btn">How to play</button>
+      <a href="asteroid.html">asteroids</a>
     <p id="status"></p>
     <div id = "scorestatus">
     <p>  Score: </p>
@@ -91,13 +92,17 @@
   //create rectangles
   function rect() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    let rect1 = ctx.fillRect(randx, randy, a, b);
-    let rect2 = ctx.fillRect(randx2, randy2, a2, b2)
+    let rect1 = ctx.fillRect(randx, randy, 100, 100);
+    let rect2 = ctx.fillRect(randx2, randy2, 100, 100)
     //need to sort out width
-    if(rand > 0.5 ) {
+    if(rand < 0.25 ) {
       movementneg();
-    } else {
+    } else if(rand < 0.5) {
       movementpos();
+    } else if(rand < 0.75) {
+      movementnegpos();
+    } else {
+      movementposneg();
     }
     if(rand2 > 0.5) {
       movementneg2();
@@ -129,6 +134,38 @@
       a = a + movement;
       b = b + movement;
       width1 = randx + Math.abs(a);
+      height1 = randy + Math.abs(b);
+      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
+      checkOut();
+      speedup()
+    } else {
+      score++;
+      newstart();
+    }
+  }
+
+    //move left up
+    function movementposneg() {
+    if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){     
+      a = a + movement;
+      b = b - movement;
+      width1 = randx + Math.abs(a);
+      height1 = randy - Math.abs(b);
+      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
+      checkOut();
+      speedup()
+    } else {
+      score++;
+      newstart();
+    }
+  }
+
+    //move left up
+    function movementnegpos() {
+    if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){     
+      a = a - movement;
+      b = b + movement;
+      width1 = randx - Math.abs(a);
       height1 = randy + Math.abs(b);
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
       checkOut();
