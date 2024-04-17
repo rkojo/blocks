@@ -38,6 +38,8 @@
   let randy = 0;
   let randx2 = 0;
   let randy2 = 0;
+  let randx3 = 0;
+  let randy3 = 0
   let stopped = false;
   let mmv = {x: 0, y: 0}; //xy coordinates for mouse
   let score = 0;
@@ -45,6 +47,8 @@
   let movementy = 0;
   let movementx2 = 0;
   let movementy2 = 0;
+  let movementx3 = 0;
+  let movementy3 = 0;
 
 
 
@@ -87,10 +91,10 @@
   function rect() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     let rect1 = ctx.fillRect(randx, randy, a, a);
-    let rect2 = ctx.fillRect(randx2, randy2, a, a)
+    let rect2 = ctx.fillRect(randx2, randy2, a, a);
+    let rect3 = ctx.fillRect(randx3, randy3, a, a)
     //need to sort out width
       movement();
-      movement2();
     }
 
    function setmovement() {
@@ -114,6 +118,16 @@
       } else {
         movementy2 = Math.round(Math.random()*speed) - speed- minspeed;
       }
+      if(randx3 ==0) {
+        movementx3 = Math.round(Math.random()*speed) + minspeed;
+      } else {
+        movementx3 = Math.round(Math.random()*speed) - speed- minspeed;
+      }
+      if(randy3 == 0) {
+        movementy3 = Math.round(Math.random()*speed) + minspeed;
+      } else {
+        movementy3 = Math.round(Math.random()*speed) - speed- minspeed;
+      }
       console.log("X speed = " + movementx);
       console.log("Y speed = " + movementy);
     }
@@ -136,35 +150,28 @@
       movementy2 = 0;
       gameover();
     }
+    if(((mmv.x > randx3 && mmv.x < randx3 + a) || (mmv.x < randx3 && mmv.x > randx3 + a)) && 
+    ((mmv.y > randy3 && mmv.y < randy3 + a) || (mmv.y < randy3 && mmv.y > randy3 + a))) {
+      console.log("inside3 " + mmv.x + " "+ mmv.y + " " +randx3, randx3 + a, randy3, randy3 + a)
+    score = 0;
+      movementx3 = 0;
+      movementy3 = 0;
+      gameover();
+    }
   }
 
   //move left up
   function movement() {
-    if ((randx <= canvas.width &&  randx >= 0 && randy <= canvas.width && randy >= 0) || (randx2 <= canvas.width &&  randx2 >= 0 && randy2 <= canvas.height && randy2 >= 0)){     
+    if ((randx <= canvas.width &&  randx >= 0 && randy <= canvas.width && randy >= 0) || (randx2 <= canvas.width &&  randx2 >= 0 && randy2 <= canvas.height && randy2 >= 0)|| (randx3 <= canvas.width &&  randx3 >= 0 && randy3 <= canvas.height && randy3 >= 0)){     
       randx = randx + movementx;
       randy = randy + movementy;
-      console.log("randX = " + randx);
-    console.log("randy = " + randy);
-    console.log("movementx = " + movementx);
-      console.log("movementy = " + movementy);
-      // a2 = a2 + movementx;
-
-      // b2 = b2 + movementy;
-      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
-      checkOut();
-      //speedup()
-    } else {
-      score++;
-      newstart();
-    }
-  }
-
-  function movement2() {
-    if ((randx <= canvas.width &&  randx >= 0 && randy <= canvas.width && randy >= 0) || (randx2 <= canvas.width &&  randx2 >= 0 && randy2 <= canvas.height && randy2 >= 0)){     
-      // a2 = a2 + movementx;
-      // b2 = b2 + movementy;
+      randx3 = randx3 + movementx3;
+      randy3 = randy3 + movementy3;
       randx2 = randx2 + movementx2;
       randy2 = randy2 + movementy2;
+      // a2 = a2 + movementx;
+
+      // b2 = b2 + movementy;
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
       checkOut();
       //speedup()
@@ -188,10 +195,12 @@
 //add values
 function newstart() {
   document.getElementById('score').innerHTML = score;
-      randy = size;
+      randy = Math.random() <0.5 ?  0: size;
       randx = Math.random() <0.5 ?  0: size;
       randy2 = Math.random() <0.5 ? 0 : size;
       randx2 = Math.random() <0.5 ? 0 : size;
+      randy3 = Math.random() <0.5 ? 0 : size;
+      randx3 = Math.random() <0.5 ? 0 : size;
       setmovement()
 }
   //restart
@@ -204,13 +213,15 @@ function newstart() {
       randx = 0
       randy2 = 0
       randx2 =0;
+      randy3 = 0
+      randx3 =0;
       rand = 0;
   }
   function speedup() {
     if(score> 5) {
-      a = a  + 2
-      minspeed = minspeed + 1
-      speed = speed + 1
+      a = a  + 3;
+      minspeed = minspeed + 1;
+      speed = speed + 2;
     }
   }
   function instruction() {
