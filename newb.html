@@ -8,10 +8,14 @@
 </head>
 
 <body>
+  <ul>
+    <li><a href="home.html">Home</a></li>
+    <li><a href="asteroid.html">Asteroid Game</a></li>
+    <li><a href="newb.html">Block game</a></li>
+  </ul>
+  <h1>Block Game</h1>
   <div>
     <div id = top>
-      <button type="button", onclick="instruction()", id="btn">How to play</button>
-      <a href="asteroid.html">asteroids</a>
     <p id="status"></p>
     <div id = "scorestatus">
     <p>  Score: </p>
@@ -21,8 +25,15 @@
     <div>
     <canvas id="cv" width="500" height="500" style="border: 1px solid black;"></canvas>
   </div>
+  
   </div>
+  <div class="howplay">
+
+  <h2>How to Play</h2>
+  <p>click the square to play, avoid the growing rectangles, higher points = faster movement. Dont leave the square otherwise it will be reset</p>
+   </div>
 </body>
+
 <script>
   const canvas = document.getElementById("cv");
   const ctx = canvas.getContext("2d");
@@ -92,17 +103,13 @@
   //create rectangles
   function rect() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
-    let rect1 = ctx.fillRect(randx, randy, 100, 100);
-    let rect2 = ctx.fillRect(randx2, randy2, 100, 100)
+    let rect1 = ctx.fillRect(randx, randy, a, b);
+    let rect2 = ctx.fillRect(randx2, randy2, a2, b2)
     //need to sort out width
-    if(rand < 0.25 ) {
+    if(rand > 0.5 ) {
       movementneg();
-    } else if(rand < 0.5) {
-      movementpos();
-    } else if(rand < 0.75) {
-      movementnegpos();
     } else {
-      movementposneg();
+      movementpos();
     }
     if(rand2 > 0.5) {
       movementneg2();
@@ -134,38 +141,6 @@
       a = a + movement;
       b = b + movement;
       width1 = randx + Math.abs(a);
-      height1 = randy + Math.abs(b);
-      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
-      checkOut();
-      speedup()
-    } else {
-      score++;
-      newstart();
-    }
-  }
-
-    //move left up
-    function movementposneg() {
-    if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){     
-      a = a + movement;
-      b = b - movement;
-      width1 = randx + Math.abs(a);
-      height1 = randy - Math.abs(b);
-      //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
-      checkOut();
-      speedup()
-    } else {
-      score++;
-      newstart();
-    }
-  }
-
-    //move left up
-    function movementnegpos() {
-    if ((width1 < canvas.width &&  width1 > 0 && height1 < canvas.width && height1 > 0) || (width2 < canvas.width &&  width2 > 0 && height2 < canvas.height && height2 > 0)){     
-      a = a - movement;
-      b = b + movement;
-      width1 = randx - Math.abs(a);
       height1 = randy + Math.abs(b);
       //necessary to ensure that it is checked everytime it is bigger - if mouse if not moved
       checkOut();
@@ -273,9 +248,6 @@ function newstart() {
     if(score> 5) {
       movement = movement + 0.1;
     }
-  }
-  function instruction() {
-    alert("click the square to play, avoid the growing rectangles, higher points = faster movement. Dont leave the square otherwise it will be reset")
   }
 </script>
 </html>

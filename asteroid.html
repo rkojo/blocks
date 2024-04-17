@@ -8,10 +8,14 @@
 </head>
 
 <body>
+  <ul>
+    <li><a href="home.html">Home</a></li>
+    <li><a href="asteroid.html">Asteroid Game</a></li>
+    <li><a href="newb.html">Block game</a></li>
+  </ul>
+  <h1>Asteroid Game</h1>
   <div>
     <div id = top>
-      <button type="button", onclick="instruction()", id="btn">How to play</button>
-      <a href="newb.html">return to blocks</a>
     <p id="status"></p>
     <div id = "scorestatus">
     <p>  Score: </p>
@@ -22,7 +26,12 @@
     <canvas id="cv" width="500" height="500" style="border: 1px solid black;"></canvas>
   </div>
   </div>
+  <div class="howplay">
+  <h2>How to Play</h2>
+  <p>Click the square to play, avoid the moving rectangles, higher points = faster movement or greater size. Dont leave the square otherwise it will be reset</p>
+</div>
 </body>
+<script src="losstrigger.js"></script>
 <script>
   const canvas = document.getElementById("cv");
   const ctx = canvas.getContext("2d");
@@ -223,9 +232,6 @@ function newstart() {
       minspeed = minspeed + 1;
       speed = speed + 2;
     }
-  }
-  function instruction() {
-    alert("click the square to play, avoid the moving rectangles, higher points = faster movement or greater size. Dont leave the square otherwise it will be reset")
   }
 </script>
 </html>
