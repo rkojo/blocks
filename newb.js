@@ -56,7 +56,10 @@ function gameover() {
   if(pressed == true) {
   document.getElementById('score').innerHTML = score;
   document.getElementById('status').innerHTML = "GAME OVER";
-  document.getElementById('endscreen').innerHTML = "GAME OVER" + " " + score
+  document.getElementById('endscreenleft').innerHTML = "GAME OVER";
+  document.getElementById('scorescreenleft').innerHTML = score;
+  document.getElementById('endscreenright').innerHTML = "GAME OVER";
+  document.getElementById('scorescreenright').innerHTML = score;
   document.body.style.backgroundColor = "red";
   score = 0;
   clearInterval(move);
@@ -194,6 +197,10 @@ a = 0;
     rand = Math.random();
     rand2 = Math.random();
     document.body.style.backgroundColor = "lightblue";
+    document.getElementById('endscreenleft').innerHTML ="";
+    document.getElementById('scorescreenleft').innerHTML = "";
+    document.getElementById('endscreenright').innerHTML ="";
+    document.getElementById('scorescreenright').innerHTML = "";
 }
 //restart
 function stopmovement() {

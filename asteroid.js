@@ -54,6 +54,10 @@ function gameover() {
   if(pressed == true) {
   document.getElementById('score').innerHTML = score;
   document.getElementById('status').innerHTML = "GAME OVER";
+  document.getElementById('endscreenleft').innerHTML = "GAME OVER";
+  document.getElementById('scorescreenleft').innerHTML = score;
+  document.getElementById('endscreenright').innerHTML = "GAME OVER";
+  document.getElementById('scorescreenright').innerHTML = score;
   document.body.style.backgroundColor = "red";
   score = 0;
   clearInterval(move);
@@ -180,6 +184,10 @@ document.getElementById('score').innerHTML = score;
     randx3 = Math.random() <0.5 ? 0 : size;
     setmovement();
     document.body.style.backgroundColor = "lightblue";
+    document.getElementById('endscreenleft').innerHTML ="";
+    document.getElementById('scorescreenleft').innerHTML = "";
+    document.getElementById('endscreenright').innerHTML ="";
+    document.getElementById('scorescreenright').innerHTML = "";
 }
 //restart
 function stopmovement() {
