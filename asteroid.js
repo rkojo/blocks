@@ -51,14 +51,17 @@ function drawmouse(e) {
 }
 function gameover() {
   //alert("Game Over")    
+  if(pressed == true) {
   document.getElementById('score').innerHTML = score;
   document.getElementById('status').innerHTML = "GAME OVER";
+  document.body.style.backgroundColor = "red";
   score = 0;
   clearInterval(move);
   ctx.clearRect(0,0, canvas.width, canvas.height);
   clearInterval();
   pressed = false;
   ctx.fillText("GAME OVER", randx, randy);
+  }
 }
 
 //create rectangles
@@ -175,7 +178,8 @@ document.getElementById('score').innerHTML = score;
     randx2 = Math.random() <0.5 ? 0 : size;
     randy3 = Math.random() <0.5 ? 0 : size;
     randx3 = Math.random() <0.5 ? 0 : size;
-    setmovement()
+    setmovement();
+    document.body.style.backgroundColor = "lightblue";
 }
 //restart
 function stopmovement() {

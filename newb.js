@@ -23,7 +23,7 @@ let width2 = 0;
 let height2 = 0;
 let stopped = false;
 let mmv = {x: 0, y: 0}; //xy coordinates for mouse
-let score = -1; //score goes to 0 when newstart occurs
+let score = 0; //score goes to 0 when newstart occurs
 let movement = 3;
 console.log(randx);
   console.log(randy);
@@ -53,14 +53,18 @@ function drawmouse(e) {
 }
 function gameover() {
   //alert("Game Over")    
+  if(pressed == true) {
   document.getElementById('score').innerHTML = score;
   document.getElementById('status').innerHTML = "GAME OVER";
+  document.getElementById('endscreen').innerHTML = "GAME OVER" + " " + score
+  document.body.style.backgroundColor = "red";
   score = 0;
   clearInterval(move);
   ctx.clearRect(0,0, canvas.width, canvas.height);
   clearInterval();
   pressed = false;
   ctx.fillText("GAME OVER", randx, randy);
+  }
 }
 
 //create rectangles
@@ -189,7 +193,7 @@ a = 0;
     height2 = randy2;
     rand = Math.random();
     rand2 = Math.random();
-
+    document.body.style.backgroundColor = "lightblue";
 }
 //restart
 function stopmovement() {
