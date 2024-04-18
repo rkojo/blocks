@@ -30,11 +30,11 @@ function clicked() {
   console.log(done);
   draw();
 }
-canvas.addEventListener('click',() => draw(event), false);
+canvas.addEventListener('click',() => draw(), false);
 canvas.addEventListener('mousemove',  drawmouse, false);
 canvas.addEventListener('mouseleave', gameover, false)
 
-function draw(e) {
+function draw() {
   if(pressed == false) {
     newstart();
     move = setInterval(() => rect(), 100);
@@ -189,7 +189,7 @@ function stopmovement() {
     randx2 =0;
     randy3 = 0
     randx3 =0;
-    rand = 0;
+
 }
 function speedup() {
   if(score> 5) {
